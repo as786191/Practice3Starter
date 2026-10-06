@@ -1,86 +1,83 @@
 <%@page contentType="text/html" pageEncoding="utf-8"%>
-<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="business.Person"%>
-<%@page import="java.util.ArrayList"%>
-
-
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>INFO2514 Practice 3</title>
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <title>Employee Info</title>
+</head>
+<body style="background-color:pink;">
 
-    <h2>${error}</h2>
-    <h1>Employee Info:</h1>
-  <table>
+<h2>${error}</h2>
+<h1>Employee Info:</h1>
+
+<form action="Controller" method="post">
+    <input type="hidden" name="action" value="add">
+
+    <label>Key:</label>
+    <input type="text" name="key"><br>
+
+    <label>Employee ID:</label>
+    <input type="text" name="employeeID"><br>
+
+    <label>First Name:</label>
+    <input type="text" name="firstName"><br>
+
+    <label>Middle Name:</label>
+    <input type="text" name="middleName"><br>
+
+    <label>Last Name:</label>
+    <input type="text" name="lastName"><br>
+
+    <label>Birth Date:</label>
+    <input type="date" name="birthDate"><br>
+
+    <label>Hire Date:</label>
+    <input type="date" name="hireDate"><br>
+
+    <input type="submit" value="Add">
+</form>
+
+<table style="background-color:hotpink;border:1px solid black;border-collapse:collapse;">
     <tr>
-        <th>Count</th>
-        <th>Key</th>
-        <th>Employee Id</th>
-        <th>First Name</th>
-        <th>Middle Name</th>
-        <th>Last Name</th>
-        <th>Birth Date</th>
-        <th>Hire Date</th>
-        
+        <th>Key</th><th>ID</th><th>First</th><th>Middle</th><th>Last</th>
+        <th>Birth</th><th>Hire</th><th>Edit</th><th>Delete</th>
     </tr>
 
-    <c:forEach var="item" items="${linkMap}" varStatus="status">
+    <c:forEach var="item" items="${linkMap}">
         <tr>
-            <td> ${status.count} </td>
-               <td> ${item.key} </td>
-               <td> ${item.value.employeeID} </td>
-                <td> ${item.value.firstName}</td>
-                <td> ${item.value.middleName} </td>
-                <td> ${item.value.lastName} </td>
-                <td> ${item.value.birthDate} </td>
-                <td> ${item.value.hireDate} </td>
-                
+            <td>${item.key}</td>
+            <td>${item.value.employeeID}</td>
+            <td>${item.value.firstName}</td>
+            <td>${item.value.middleName}</td>
+            <td>${item.value.lastName}</td>
+            <td>${item.value.birthDate}</td>
+            <td>${item.value.hireDate}</td>
 
-                <td>
-                    <form action="Controller" method="post">
+            <td>
+                <!-- THIS is the fix: send item.key -->
+                <form action="Controller" method="post">
+                    <input type="hidden" name="action" value="edit">
+                    <input type="hidden" name="originalKey" value="${item.key}">
+                    <input type="submit" value="Edit">
+                </form>
+            </td>
+
+            <td>
+                <form action="Controller" method="post">
                     <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="key" value= "${item.key}">
-                     <input type="submit" value="Delete">
-                    </form>
-                </td>
-    </tr>
-            </c:forEach>  
-        </table>
-    
-    <br> 
-    
-    <form action="Controller" method="post">
-                    <input type="hidden" name="action" value="reset">
-                     <input type="submit" value="reset">
-                    </form>
-                     
-   
+                    <input type="hidden" name="key" value="${item.key}">
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+<form action="Controller" method="post">
+    <input type="hidden" name="action" value="reset">
+    <input type="submit" value="Reset">
+</form>
 
 </body>
 </html>
- 
-<style>
-    table {
-        background-color: hotpink;
-     border: 1px solid black;
-     border-collapse: collapse;
-     }
-     
-     th, td {  border: 1px solid black;
-     text-align: left; 
-     padding: .5em;
-     }
-     
-     html {
-         background-color: pink;
-     }
-  
-    
-</style>
-
-   
-
